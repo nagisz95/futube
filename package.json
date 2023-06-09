@@ -3,6 +3,9 @@
   "version": "1.0.0",
   "description": "The best way to watch videos.",
   "scripts": {
+    "start": "node build/init.js",
+    "build": "npm run build:server",
+    "build:server": "babel src/init.js -d build",
     "dev": "nodemon --exec babel-node src/init.js"
   },
   "repository": {
@@ -26,7 +29,8 @@
     "pug": "^3.0.2"
   },
   "devDependencies": {
-    "@babel/core": "^7.22.1",
+    "@babel/cli": "^7.22.5",
+    "@babel/core": "^7.22.5",
     "@babel/node": "^7.22.1",
     "@babel/preset-env": "^7.22.4",
     "@prettier/plugin-pug": "^2.5.1",
