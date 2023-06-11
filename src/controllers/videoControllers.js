@@ -94,3 +94,19 @@ export const createComment = async (req, res) => {
   video.save();
   return res.sendStatus(200);
 };
+
+export const deleteComment = async (req, res) => {
+  const {
+    params: { commentId, videoId },
+  } = req;
+  await Comment.findByIdAndDelete(commentId);
+  await Video.updateOne(
+    { _id: videoId },
+    {
+      $pull: {
+        comments: commentId,
+      },
+    }
+  );
+  return res.sendStatus(200);
+};
