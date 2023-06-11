@@ -196,3 +196,38 @@ export const see = async (req, res) => {
     user,
   });
 };
+
+export const deleteComment = async (req, res) => {
+  console.log("deleteComment is running");
+  const userId = req.session.user._id;
+  const commentId = req.body.commentId;
+  const videoId = req.params.id;
+
+  //delete comment in video
+  const video = await Video.findById(videoId);
+  if (!video) {
+    console.log("delete comment failed, video not found");
+    return res.sendStatus(404);
+  }
+  video.comments = video.comments.filter((id) => id !== commentId);
+  await video.save();
+
+  //delete comment in user
+  const user = await User.findById(userId);
+
+  if (!user) {
+    console.log("delete comment failed, user not found");
+    return res.sendStatus(404);
+  }
+  user.comments = user.comments.filter((id) => id !== commentId);
+  await user.save();
+
+  // delete comment
+  try {
+    await Comment.findByIdAndDelete(commentId);
+    return res.sendStatus(200);
+  } catch (error) {
+    console.log("delete comment failed, Comment not found");
+    return res.sendStatus(400);
+  }
+};
