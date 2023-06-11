@@ -1,11 +1,9 @@
 extends base
 include mixins/video
 
-block content 
-    main
-        h2 Watch these awesome videos! 
-        ul
-            each video in videos
-                +video(video)
-            else
-                h3 Sorry, not found.
+block content
+  .video-grid
+    each video in videos
+      +video(video)
+    else
+      span.empty__message No videos found
